@@ -45,4 +45,6 @@ public:
     /// @param key
     /// @return
     BTreeNode<T> &findNextNode(T &key);
+
+    T *findKey(const T &key);
 };

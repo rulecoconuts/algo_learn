@@ -35,6 +35,9 @@ public:
     /// @return The key if it was found; nullptr if it does not exist in the tree
     T *find(const T &key);
 
+    /// @brief Find the best leaf node to insert the given key into
+    /// @param key
+    /// @return
     BTreeNode<T> &findOptimalInsertionNode(const T &key);
 
     /// @brief Split root into two nodes and a new root

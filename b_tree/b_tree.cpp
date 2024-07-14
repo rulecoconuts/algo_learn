@@ -77,3 +77,18 @@ BTreeNode<T> &BTree<T>::findOptimalInsertionNode(const T &key)
 
     return *currentNode;
 }
+
+template <typename T>
+T *BTree<T>::find(const T &key)
+{
+    BTreeNode<T> *currentNode = &(*root);
+    T *keyInTree = nullptr;
+
+    // Keep searching until we find the key or there are no more levels to search
+    while ((keyInTree = currentNode->findKey(key)) == nullptr && currentNode->nChildren() > 0)
+    {
+        currentNode = &(currentNode->findNextNode(key));
+    }
+
+    return keyInTree;
+}
