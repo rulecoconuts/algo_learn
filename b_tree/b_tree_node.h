@@ -28,6 +28,8 @@ public:
 
     std::weak_ptr<BTreeNode<T>> getParent() const;
 
+    void setParent(std::weak_ptr<BTreeNode<T>> parent);
+
     bool hasParent() const;
 
     int nChildren() const;
@@ -37,4 +39,10 @@ public:
     BTreeNodeSplitResult<T> splitChild(BTreeNode<T> &node);
     void merge(int pos, bool chooseLeft);
     void insertKey(const T &key);
+    void insertChildAtBack(BTreeNode<T> &child);
+
+    /// @brief Return the next child node to follow when looking for a key
+    /// @param key
+    /// @return
+    BTreeNode<T> &findNextNode(T &key);
 };

@@ -37,5 +37,7 @@ public:
 
     BTreeNode<T> &findOptimalInsertionNode(const T &key);
 
-    void makeNewRoot(BTreeNodeSplitResult<T> splitResult, BTreeNode<T> root);
+    /// @brief Split root into two nodes and a new root
+    /// @param root
+    void splitRoot(BTreeNode<T> &root);
 };

@@ -43,9 +43,9 @@
 		{
 			"id": "pointer:pointer",
 			"typeName": "pointer",
-			"x": 843.6316568774089,
-			"y": 1073.9285121523585,
-			"lastActivityTimestamp": 1720988825091,
+			"x": 298.51767908574647,
+			"y": 776.1366926516812,
+			"lastActivityTimestamp": 1720991786332,
 			"meta": {}
 		},
 		{
@@ -3120,9 +3120,11 @@
 			"typeName": "camera"
 		},
 		{
-			"editingShapeId": null,
+			"editingShapeId": "shape:dULGKm7KajLqw8P5YOUFY",
 			"croppingShapeId": null,
-			"selectedShapeIds": [],
+			"selectedShapeIds": [
+				"shape:dULGKm7KajLqw8P5YOUFY"
+			],
 			"hoveredShapeId": null,
 			"erasingShapeIds": [],
 			"hintingShapeIds": [],
@@ -10725,7 +10727,7 @@
 				"dash": "draw",
 				"size": "s",
 				"font": "draw",
-				"text": "makeNewRoot(BTreeNodeSplitResult<T> splitResult, BTreeNode<T> currentRoot)",
+				"text": "splitRoot(BTreeNode<T> root)",
 				"align": "middle",
 				"verticalAlign": "middle",
 				"growY": 0,

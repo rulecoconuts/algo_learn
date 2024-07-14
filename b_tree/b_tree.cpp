@@ -19,7 +19,7 @@ void BTree<T>::insert(const T &key)
     // If there is no root. Create a root node
     if (root == nullptr)
     {
-        root = make_shared({key});
+        root = std::make_shared({key});
         return;
     }
 
@@ -44,7 +44,7 @@ void BTree<T>::insertInto(const T &key, BTreeNode<T> &node)
         if (!currentNode->hasParent())
         {
             // Node is root
-            makeNewRoot(currentNode->split(), *currentNode);
+            splitRoot(*currentNode);
             return;
         }
 
@@ -53,4 +53,27 @@ void BTree<T>::insertInto(const T &key, BTreeNode<T> &node)
         parent.splitChild(*currentNode);
         currentNode = &parent;
     }
+}
+
+template <typename T>
+void BTree<T>::splitRoot(BTreeNode<T> &root)
+{
+    BTreeNodeSplitResult<T> splitResult = root.split();
+    std::shared_ptr<BTreeNode<T>> newRoot = std::make_shared({splitResult.getRootKey()});
+    newRoot->insertChildAtBack(splitResult.getNode());
+    newRoot->insertChildAtBack(root);
+    this->root = newRoot;
+}
+
+template <typename T>
+BTreeNode<T> &BTree<T>::findOptimalInsertionNode(const T &key)
+{
+    BTreeNode<T> *currentNode = &(*root);
+
+    while (currentNode->nChildren() > 0)
+    {
+        currentNode = &(currentNode->findNextNode(key));
+    }
+
+    return *currentNode;
 }
