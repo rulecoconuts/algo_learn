@@ -43,9 +43,9 @@
 		{
 			"id": "pointer:pointer",
 			"typeName": "pointer",
-			"x": 33.009193258092694,
-			"y": 249.55105836835025,
-			"lastActivityTimestamp": 1720940187577,
+			"x": 843.6316568774089,
+			"y": 1073.9285121523585,
+			"lastActivityTimestamp": 1720988825091,
 			"meta": {}
 		},
 		{
@@ -3120,12 +3120,10 @@
 			"typeName": "camera"
 		},
 		{
-			"editingShapeId": "shape:d5_eKlvTlBn-_5LVyXrds",
+			"editingShapeId": null,
 			"croppingShapeId": null,
-			"selectedShapeIds": [
-				"shape:d5_eKlvTlBn-_5LVyXrds"
-			],
-			"hoveredShapeId": "shape:d5_eKlvTlBn-_5LVyXrds",
+			"selectedShapeIds": [],
+			"hoveredShapeId": null,
 			"erasingShapeIds": [],
 			"hintingShapeIds": [],
 			"focusedGroupId": null,

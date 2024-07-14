@@ -29,3 +29,28 @@ void BTree<T>::insert(const T &key)
     // Insert into node
     insertInto(key, nodeToInsertInto);
 }
+
+template <typename T>
+void BTree<T>::insertInto(const T &key, BTreeNode<T> &node)
+{
+    node.insertKey(key);
+
+    BTreeNode<T> *currentNode = &node;
+
+    // Continue splitting and moving up the tree until we find a valid node
+    while (currentNode->nKeys() > getMaxNKeys())
+    {
+        // Number of keys is invalid after insertion. Split the node
+        if (!currentNode->hasParent())
+        {
+            // Node is root
+            makeNewRoot(currentNode->split(), *currentNode);
+            return;
+        }
+
+        BTreeNode<T> parent = *(currentNode->getParent().lock());
+
+        parent.splitChild(*currentNode);
+        currentNode = &parent;
+    }
+}
