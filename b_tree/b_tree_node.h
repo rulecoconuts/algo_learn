@@ -38,12 +38,33 @@ public:
 
     int nChildren() const;
     int nKeys() const;
+
+    /// @brief Find the index of a child in the node
+    /// @param node
+    /// @return 0+ index if the child was found. -1 if it does not
     int indexOfChild(BTreeNode<T> &node);
 
+    /// @brief Split the node into two
+    /// @param maxNKeys
+    /// @return
     BTreeNodeSplitResult<T> split(int maxNKeys);
+
+    /// @brief Split child into two
+    /// @param pos
+    /// @param maxNKeys
+    /// @return
     BTreeNodeSplitResult<T> splitChild(int pos, int maxNKeys);
+
+    /// @brief Split child into two
+    /// @param node
+    /// @param maxNKeys
+    /// @return
     BTreeNodeSplitResult<T> splitChild(BTreeNode<T> &node, int maxNKeys);
+
+    /// @brief Merge child node with one of its siblings
+    /// @param pos
     void merge(int pos);
+
     void insertKey(const T &key);
     void removeKey(const T &key);
 
