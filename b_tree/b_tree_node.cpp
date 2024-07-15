@@ -139,3 +139,51 @@ void BTreeNode<T>::merge(int pos)
     keys.erase(keys.begin() + rootKeyPos);
     children.erase(children.begin() + siblingPos);
 }
+
+template <typename T>
+void BTreeNode<T>::insertKey(const T &key)
+{
+    int indexToInsertAt = nKeys();
+
+    for (int i = 0; i < nKeys(); i++)
+    {
+        if (keys[i] > key)
+        {
+            indexToInsertAt = i;
+            break;
+        }
+    }
+
+    keys.insert(keys.begin() + indexToInsertAt, key);
+}
+
+template <typename T>
+int BTreeNode<T>::indexOfKey(const T &key)
+{
+    for (int i = 0; i < nKeys(); i++)
+    {
+        if (keys[i] == key)
+        {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+template <typename T>
+void BTreeNode<T>::removeKey(const T &key)
+{
+    int index = indexOfKey(key);
+
+    if (index == -1)
+        return;
+
+    keys.erase(keys.begin() + index);
+}
+
+template <typename T>
+void BTreeNode<T>::insertChildAtBack(BTreeNode<T> &child)
+{
+    children.push_back(std::make_shared(child));
+}

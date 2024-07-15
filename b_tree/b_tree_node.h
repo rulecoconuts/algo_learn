@@ -41,7 +41,7 @@ public:
 
     /// @brief Find the index of a child in the node
     /// @param node
-    /// @return 0+ index if the child was found. -1 if it does not
+    /// @return 0+ index if the child was found. -1 if it was not
     int indexOfChild(BTreeNode<T> &node);
 
     /// @brief Split the node into two
@@ -65,7 +65,17 @@ public:
     /// @param pos
     void merge(int pos);
 
+    /// @brief Insert key into its correct sorted position
+    /// @param key
     void insertKey(const T &key);
+
+    /// @brief Find index of key
+    /// @param key
+    /// @return 0+ index if the child was found. -1 if it was not
+    int indexOfKey(const T &key);
+
+    /// @brief Remove key
+    /// @param key
     void removeKey(const T &key);
 
     void insertChildAtBack(BTreeNode<T> &child);
