@@ -111,7 +111,7 @@ void BTree<T>::remove(const T &key)
     if (currentNode->nChildren() > 0)
     {
         // Remove key and replace it with a key from one of the children
-        removeFromNonLeafNode(*currentNode);
+        removeFromNonLeafNode(key, *currentNode);
         return;
     }
 
@@ -159,8 +159,8 @@ void BTree<T>::fixLessThanMinInvalidity(BTreeNode<T> &node)
 }
 
 template <typename T>
-void BTree<T>::removeFromNonLeafNode(BTreeNode<T> &node)
+void BTree<T>::removeFromNonLeafNode(const T &key, BTreeNode<T> &node)
 {
-    BTreeNode<T> childNode = node.replaceKeyWithChildKey();
+    BTreeNode<T> childNode = node.replaceKeyWithChildKey(key);
     fixLessThanMinInvalidity(childNode);
 }
