@@ -43,4 +43,8 @@ public:
     /// @brief Split root into two nodes and a new root
     /// @param root
     void splitRoot(BTreeNode<T> &root);
+
+    void fixLessThanMinInvalidity(BTreeNode<T> &node);
+
+    void removeFromNonLeafNode(BTreeNode<T> &node);
 };

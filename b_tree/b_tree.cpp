@@ -92,3 +92,75 @@ T *BTree<T>::find(const T &key)
 
     return keyInTree;
 }
+
+template <typename T>
+void BTree<T>::remove(const T &key)
+{
+    BTreeNode<T> *currentNode = &(*root);
+    T *keyInTree = nullptr;
+
+    // Keep searching until we find the key or there are no more levels to search
+    while ((keyInTree = currentNode->findKey(key)) == nullptr && currentNode->nChildren() > 0)
+    {
+        currentNode = &(currentNode->findNextNode(key));
+    }
+
+    if (keyInTree == nullptr)
+        return;
+
+    if (currentNode->nChildren() > 0)
+    {
+        // Remove key and replace it with a key from one of the children
+        removeFromNonLeafNode(*currentNode);
+        return;
+    }
+
+    currentNode->removeKey(key);
+
+    // If node is root and it still has keys, ignore minimum number of keys requirement
+    if (!currentNode->hasParent() && currentNode->nKeys() > 0)
+    {
+        return;
+    }
+    else if (!currentNode->hasParent())
+    {
+        // Node is root and it has run out of keys. Destroy root
+        root = nullptr;
+        return;
+    }
+
+    // Node is not root and it does not have any children
+
+    // Fix invalid node key count
+    fixLessThanMinInvalidity(*currentNode);
+}
+
+template <typename T>
+void BTree<T>::fixLessThanMinInvalidity(BTreeNode<T> &node)
+{
+    int minNKeys = getMinNKeys();
+    BTreeNode<T> *currentNode = &node;
+
+    while (currentNode->nKeys() < minNKeys && currentNode->hasParent())
+    {
+        // Assume there is a parent for now
+        BTreeNode<T> parent = &(currentNode->getParent().lock());
+        int index = parent.indexOfChild(*currentNode);
+        bool borrowed = parent.borrowFromSibling(index);
+
+        if (!borrowed)
+        {
+            // Merge instead
+            parent.merge(index);
+        }
+
+        currentNode = &parent;
+    }
+}
+
+template <typename T>
+void BTree<T>::removeFromNonLeafNode(BTreeNode<T> &node)
+{
+    BTreeNode<T> childNode = node.replaceKeyWithChildKey();
+    fixLessThanMinInvalidity(childNode);
+}

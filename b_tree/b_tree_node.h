@@ -37,8 +37,11 @@ public:
     BTreeNodeSplitResult<T> split();
     BTreeNodeSplitResult<T> splitChild(int pos);
     BTreeNodeSplitResult<T> splitChild(BTreeNode<T> &node);
-    void merge(int pos, bool chooseLeft);
+    int indexOfChild(BTreeNode<T> &node);
+    void merge(int pos);
     void insertKey(const T &key);
+    void removeKey(const T &key);
+
     void insertChildAtBack(BTreeNode<T> &child);
 
     /// @brief Return the next child node to follow when looking for a key
@@ -47,4 +50,14 @@ public:
     BTreeNode<T> &findNextNode(T &key);
 
     T *findKey(const T &key);
+
+    /// @brief Take a key from an immediate sibling/neighbour of a node
+    /// @param pos Node position
+    /// @return true if a key was borrowed successfully. false if it is not possible to borrow a key
+    bool borrowFromSibling(int pos);
+
+    /// @brief Replace the key in this node with a key from one of its immediate children
+    /// @param key
+    /// @return
+    BTreeNode<T> &replaceKeyWithChildKey(T &key);
 };
