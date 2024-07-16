@@ -38,9 +38,8 @@ int BTreeNode<T>::nKeys() const
 }
 
 template <typename T>
-BTreeNodeSplitResult<T> BTreeNode<T>::split(int maxNKeys)
+BTreeNodeSplitResult<T> BTreeNode<T>::split(int minNKeys)
 {
-    int minNKeys = floor((double)maxNKeys / 2.0);
     int nImmediateChildren = minNKeys + 1;
     std::vector<std::shared_ptr<BTreeNode<T>>> newChildren;
     std::vector<T> newKeys;
@@ -85,10 +84,10 @@ int BTreeNode<T>::indexOfChild(BTreeNode<T> &node)
 }
 
 template <typename T>
-BTreeNodeSplitResult<T> BTreeNode<T>::splitChild(int pos, int maxNKeys)
+BTreeNodeSplitResult<T> BTreeNode<T>::splitChild(int pos, int minNKeys)
 {
     std::shared_ptr<BTreeNode<T>> nodeToBeSplit = children[pos];
-    BTreeNodeSplitResult<T> splitResult = nodeToBeSplit->split(maxNKeys);
+    BTreeNodeSplitResult<T> splitResult = nodeToBeSplit->split(minNKeys);
     children.insert(children.begin() + pos, splitResult.getNode());
     keys.insert(keys.begin() + pos, splitResult.getRootKey());
 
@@ -96,9 +95,9 @@ BTreeNodeSplitResult<T> BTreeNode<T>::splitChild(int pos, int maxNKeys)
 }
 
 template <typename T>
-BTreeNodeSplitResult<T> BTreeNode<T>::splitChild(BTreeNode<T> &node, int maxNKeys)
+BTreeNodeSplitResult<T> BTreeNode<T>::splitChild(BTreeNode<T> &node, int minNKeys)
 {
-    return splitChild(indexOfChild(node), maxNKeys);
+    return splitChild(indexOfChild(node), minNKeys);
 }
 
 template <typename T>
@@ -185,5 +184,106 @@ void BTreeNode<T>::removeKey(const T &key)
 template <typename T>
 void BTreeNode<T>::insertChildAtBack(BTreeNode<T> &child)
 {
+    child.parent = std::shared_ptr(this);
     children.push_back(std::make_shared(child));
+}
+
+template <typename T>
+T *BTreeNode<T>::findKey(const T &key)
+{
+    int index = indexOfKey(key);
+    if (index == -1)
+        return nullptr;
+
+    return &(keys[index]);
+}
+
+template <typename T>
+BTreeNode<T> &BTreeNode<T>::findNextNode(T &key)
+{
+    int indexGreaterThanKey = nKeys();
+
+    for (int i = 0; i < nKeys(); i++)
+    {
+        if (keys[i] > key)
+        {
+            indexGreaterThanKey = i;
+            break;
+        }
+    }
+
+    return *(children[indexGreaterThanKey]);
+}
+
+template <typename T>
+bool BTreeNode<T>::borrowFromSibling(int pos, int minNKeys)
+{
+    std::shared_ptr<BTreeNode<T>> pivotNodePtr = children[pos];
+    BTreeNode<T> pivotNode = *pivotNodePtr;
+    bool chooseLeft = pos != 0; // Only false when there is no left sibling
+    int rootKeyPos = chooseLeft ? pos - 1 : pos + 1;
+    int siblingPos = rootKeyPos;
+
+    std::shared_ptr<BTreeNode<T>> siblingNodePtr = children[siblingPos];
+    BTreeNode<T> siblingNode = *siblingNodePtr;
+
+    // We cannot borrow from a sibling if it has the minimum number of keys.
+    // Borrowing from it would make the sibling invalid
+    if (siblingNode.nKeys() == minNKeys && (pos == 0 || pos == nChildren() - 1))
+    {
+        // Cannot borrow from sibling and cannot choose a different sibling because we are at
+        // the edge of the list of children
+        return false;
+    }
+
+    if (siblingNode.nKeys() == minNKeys())
+    {
+        // Switch sibling to borrow from.
+        // Since we are not at the edge, we know that chooseLeft will be true. Make chooseLeft false i.e choose right
+        chooseLeft = false;
+        rootKeyPos = chooseLeft ? pos - 1 : pos + 1;
+        siblingPos = rootKeyPos;
+        siblingNodePtr = children[siblingPos];
+        siblingNode = *siblingNodePtr;
+
+        if (siblingNode.nKeys() == minNKeys())
+            return false;
+    }
+
+    // If we are borrowing from the left we will take the largest key. From the right, the smallest key.
+    // To maintain the properties of the tree, the root key will come down to our pivotNode, and the borrowed key will take
+    // the previous position of the root key
+
+    if (chooseLeft)
+    {
+        // insert at beginning
+        pivotNode.keys.insert(pivotNode.keys.begin(), keys[rootKeyPos]);
+        if (siblingNode.nChildren() > 0)
+        {
+            std::shared_ptr<BTreeNode<T>> siblingChild = siblingNode.children.back();
+            siblingChild->parent = pivotNodePtr;
+            pivotNode.children.insert(pivotNode.children.begin(), siblingChild);
+            siblingNode.children.pop_back();
+        }
+        keys.erase(keys.begin() + rootKeyPos);
+        keys.insert(keys.begin() + rootKeyPos, siblingNode.keys.back());
+        siblingNode.keys.pop_back();
+    }
+    else
+    {
+        // Insert at end
+        pivotNode.keys.insert(pivotNode.keys.end(), keys[rootKeyPos]);
+        if (siblingNode.nChildren() > 0)
+        {
+            std::shared_ptr<BTreeNode<T>> siblingChild = siblingNode.children.front();
+            siblingChild->parent = pivotNodePtr;
+            pivotNode.children.insert(pivotNode.children.end(), siblingChild);
+            siblingNode.children.erase(siblingNode.children.begin());
+        }
+        keys.erase(keys.begin() + rootKeyPos);
+        keys.insert(keys.begin() + rootKeyPos, siblingNode.keys.front());
+        siblingNode.keys.erase(siblingNode.keys.begin());
+    }
+
+    return true;
 }

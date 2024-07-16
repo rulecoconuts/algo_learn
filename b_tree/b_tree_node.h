@@ -51,15 +51,15 @@ public:
 
     /// @brief Split child into two
     /// @param pos
-    /// @param maxNKeys
+    /// @param minNKeys
     /// @return
-    BTreeNodeSplitResult<T> splitChild(int pos, int maxNKeys);
+    BTreeNodeSplitResult<T> splitChild(int pos, int minNKeys);
 
     /// @brief Split child into two
     /// @param node
-    /// @param maxNKeys
+    /// @param minNKeys
     /// @return
-    BTreeNodeSplitResult<T> splitChild(BTreeNode<T> &node, int maxNKeys);
+    BTreeNodeSplitResult<T> splitChild(BTreeNode<T> &node, int minNKeys);
 
     /// @brief Merge child node with one of its siblings
     /// @param pos
@@ -80,17 +80,18 @@ public:
 
     void insertChildAtBack(BTreeNode<T> &child);
 
+    T *findKey(const T &key);
+
     /// @brief Return the next child node to follow when looking for a key
     /// @param key
     /// @return
     BTreeNode<T> &findNextNode(T &key);
 
-    T *findKey(const T &key);
-
     /// @brief Take a key from an immediate sibling/neighbour of a node
     /// @param pos Node position
+    /// @param minNKeys
     /// @return true if a key was borrowed successfully. false if it is not possible to borrow a key
-    bool borrowFromSibling(int pos);
+    bool borrowFromSibling(int pos, int minNKeys);
 
     /// @brief Replace the key in this node with a key from one of its immediate children
     /// @param key

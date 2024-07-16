@@ -146,7 +146,7 @@ void BTree<T>::fixLessThanMinInvalidity(BTreeNode<T> &node)
         // Assume there is a parent for now
         BTreeNode<T> parent = &(currentNode->getParent().lock());
         int index = parent.indexOfChild(*currentNode);
-        bool borrowed = parent.borrowFromSibling(index);
+        bool borrowed = parent.borrowFromSibling(index, getMaxNKeys());
 
         if (!borrowed)
         {
