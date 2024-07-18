@@ -96,5 +96,5 @@ public:
     /// @brief Replace the key in this node with a key from one of its immediate children
     /// @param key
     /// @return
-    BTreeNode<T> &replaceKeyWithChildKey(T &key);
+    BTreeNode<T> &replaceKeyWithChildKey(const T &key);
 };

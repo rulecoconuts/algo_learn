@@ -287,3 +287,14 @@ bool BTreeNode<T>::borrowFromSibling(int pos, int minNKeys)
 
     return true;
 }
+
+template <typename T>
+BTreeNode<T> &BTreeNode<T>::replaceKeyWithChildKey(const T &key)
+{
+    int keyIndex = indexOfKey(key);
+    // The children of a root key given its index are at index and index+1 in the list of children
+
+    // Try to see if you can replace with 
+    std::shared_ptr<BTreeNode<T>> borrowerNodePtr = children[keyIndex];
+    BTreeNode<T> borrowerNode = *borrowerNodePtr;
+}
