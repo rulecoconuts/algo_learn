@@ -1,5 +1,7 @@
 # algo_impl
- A collection of implementations for various data structures and algorithms. Most notably: A Btree implementation in C++ as a backbone for a larger database project.
+ A collection of implementations for various data structures and algorithms.
+ 
+ Most notably, a Btree implementation in C++ as a backbone for a larger database project:
 
 <img width="1111" alt="Screenshot 2024-07-31 at 1 05 21 AM" src="https://github.com/user-attachments/assets/d8ec38c6-c9b8-42f8-817d-4d71a9cdee8b">
 
