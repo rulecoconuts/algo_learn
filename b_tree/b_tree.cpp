@@ -1,5 +1,6 @@
 #include <b_tree.h>
 #include <cmath>
+#include <stdexcept>
 
 template <typename T>
 int BTree<T>::getMaxNKeys() const
@@ -161,6 +162,68 @@ void BTree<T>::fixLessThanMinInvalidity(BTreeNode<T> &node)
 template <typename T>
 void BTree<T>::removeFromNonLeafNode(const T &key, BTreeNode<T> &node)
 {
-    BTreeNode<T> childNode = node.replaceKeyWithChildKey(key);
-    fixLessThanMinInvalidity(childNode);
+    // We cannot simply remove the key, so we must replace it with a key from one of its children
+    BTreeNode<T> &childNodeThatReplacementKeyWasFrom = replaceNodeKeyFromSubTree(key, node);
+
+    fixLessThanMinInvalidity(childNodeThatReplacementKeyWasFrom);
+}
+
+template <typename T>
+BTreeNode<T> &BTree<T>::replaceNodeKeyFromSubTree(const T &key, BTreeNode<T> &node)
+{
+    BTreeNode<T> &leafNodeThatReplacementKeyWasFrom;
+
+    // We will start by only considering the valid node on the left subtree
+    BTreeNode<T> &validLeftNode = findRightmostLeafOfLeftSubtree(key, node);
+
+    // If the left leaf node has just the minimum number of keys, taking any keys from it would make it invalid.
+    // The right leaf node could either have the minimum or more number of keys. This gives us a chance to avoid
+    // the cost of fixing a node with an invalid number of keys
+    T replacementKey;
+
+    if (validLeftNode.nKeys() > getMinNKeys())
+    {
+        // The left leaf node can afford to get a key taken from it.
+        leafNodeThatReplacementKeyWasFrom = validLeftNode;
+        replacementKey = validLeftNode.popLastKey();
+    }
+    else
+    {
+        // The left leaf node can afford to get a key taken from it.
+        // Try the right leaf node
+        BTreeNode<T> &validRightNode = findLeftmostLeafOfRightSubtree(key, node);
+        leafNodeThatReplacementKeyWasFrom = validRightNode;
+        replacementKey = validRightNode.popFirstKey();
+    }
+
+    node.removeKey(key);
+    node.insertKey(replacementKey);
+
+    return leafNodeThatReplacementKeyWasFrom;
+}
+
+template <typename T>
+BTreeNode<T> &BTree<T>::findRightmostLeafOfLeftSubtree(const T &key, BTreeNode<T> startNode)
+{
+    BTreeNode<T> currentNode = startNode.getLeftChild(key);
+
+    while (currentNode.nChildren() > 0)
+    {
+        currentNode = currentNode.lastChild();
+    }
+
+    return currentNode;
+}
+
+template <typename T>
+BTreeNode<T> &BTree<T>::findLeftmostLeafOfRightSubtree(const T &key, BTreeNode<T> startNode)
+{
+    BTreeNode<T> currentNode = startNode.getRightChild(key);
+
+    while (currentNode.nChildren() > 0)
+    {
+        currentNode = currentNode.firstChild();
+    }
+
+    return currentNode;
 }

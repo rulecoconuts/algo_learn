@@ -80,12 +80,46 @@ public:
 
     void insertChildAtBack(BTreeNode<T> &child);
 
+    /// @brief Get the first key
+    /// @return
+    T &firstKey();
+
+    /// @brief Get the last key
+    /// @return
+    T &lastKey();
+
+    /// @brief Remove and return the first key
+    /// @return
+    T popFirstKey();
+
+    /// @brief Remove and return the last key
+    /// @return
+    T popLastKey();
+
     T *findKey(const T &key);
+
+    /// @brief Get the first child
+    /// @return
+    BTreeNode<T> &firstChild();
+
+    /// @brief Get the last child
+    /// @return
+    BTreeNode<T> &lastChild();
 
     /// @brief Return the next child node to follow when looking for a key
     /// @param key
     /// @return
     BTreeNode<T> &findNextNode(T &key);
+
+    /// @brief Return the left child node of a key
+    /// @param key
+    /// @return
+    BTreeNode<T> &getLeftChild(const T &key);
+
+    /// @brief Return the right child node of a key
+    /// @param key
+    /// @return
+    BTreeNode<T> &getRightChild(const T &key);
 
     /// @brief Take a key from an immediate sibling/neighbour of a node
     /// @param pos Node position

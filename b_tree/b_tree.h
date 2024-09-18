@@ -23,7 +23,7 @@ private:
     /// @param root
     void splitRoot(BTreeNode<T> &root);
 
-    /// @brief Fix a node who has less keys than minimum number of keys
+    /// @brief Fix a node which has less keys than the minimum number of keys
     /// @param node
     void fixLessThanMinInvalidity(BTreeNode<T> &node);
 
@@ -31,6 +31,27 @@ private:
     /// @param key
     /// @param node
     void removeFromNonLeafNode(const T &key, BTreeNode<T> &node);
+
+    /// @brief Replace a key, K, in a nodes, with a valid key, R, from a leaf node of the subtrees of K.
+    ///
+    /// R is either the closest leaf node less than the K in the left subtree or the closest leaf node greater than K in the
+    /// right subtree
+    /// @param key
+    /// @param node
+    /// @return
+    BTreeNode<T> &replaceNodeKeyFromSubTree(const T &key, BTreeNode<T> &node);
+
+    /// @brief Get the rightmost leaf node of the left subtree with some key in a start node as the root
+    /// @param key
+    /// @param startNode
+    /// @return
+    BTreeNode<T> &findRightmostLeafOfLeftSubtree(const T &key, BTreeNode<T> startNode);
+
+    /// @brief Get the leftmost leaf node of the right subtree with some key in a start node as the root
+    /// @param key
+    /// @param startNode
+    /// @return
+    BTreeNode<T> &findLeftmostLeafOfRightSubtree(const T &key, BTreeNode<T> startNode);
 
 public:
     BTree(int maxKeys) : maxNKeys(maxKeys), root(nullptr)

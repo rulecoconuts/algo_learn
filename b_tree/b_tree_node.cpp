@@ -182,6 +182,60 @@ void BTreeNode<T>::removeKey(const T &key)
 }
 
 template <typename T>
+T &BTreeNode<T>::firstKey()
+{
+    return keys.front();
+}
+
+template <typename T>
+T &BTreeNode<T>::lastKey()
+{
+    return keys.back();
+}
+
+template <typename T>
+T BTreeNode<T>::popFirstKey()
+{
+    T key = keys.front();
+    keys.pop_front();
+
+    return key;
+}
+
+template <typename T>
+T BTreeNode<T>::popLastKey()
+{
+    T key = keys.back();
+    keys.pop_back();
+
+    return key;
+}
+
+template <typename T>
+BTreeNode<T> &BTreeNode<T>::firstChild()
+{
+    return children.front();
+}
+
+template <typename T>
+BTreeNode<T> &BTreeNode<T>::lastChild()
+{
+    return children.back();
+}
+
+template <typename T>
+BTreeNode<T> &BTreeNode<T>::getLeftChild(const T &key)
+{
+    return children.at(indexOfKey(key));
+}
+
+template <typename T>
+BTreeNode<T> &BTreeNode<T>::getRightChild(const T &key)
+{
+    return children.at(indexOfKey(key) + 1)
+}
+
+template <typename T>
 void BTreeNode<T>::insertChildAtBack(BTreeNode<T> &child)
 {
     child.parent = std::shared_ptr(this);
@@ -201,18 +255,18 @@ T *BTreeNode<T>::findKey(const T &key)
 template <typename T>
 BTreeNode<T> &BTreeNode<T>::findNextNode(T &key)
 {
-    int indexGreaterThanKey = nKeys();
+    int indexOfFirstNodeKeyGreaterThanGivenKey = nKeys();
 
     for (int i = 0; i < nKeys(); i++)
     {
         if (keys[i] > key)
         {
-            indexGreaterThanKey = i;
+            indexOfFirstNodeKeyGreaterThanGivenKey = i;
             break;
         }
     }
 
-    return *(children[indexGreaterThanKey]);
+    return *(children[indexOfFirstNodeKeyGreaterThanGivenKey]);
 }
 
 template <typename T>
@@ -256,7 +310,7 @@ bool BTreeNode<T>::borrowFromSibling(int pos, int minNKeys)
 
     if (chooseLeft)
     {
-        // insert at beginning
+        // insert root key of left sibling and pivot node at the beginning of pivot node
         pivotNode.keys.insert(pivotNode.keys.begin(), keys[rootKeyPos]);
         if (siblingNode.nChildren() > 0)
         {
@@ -271,7 +325,7 @@ bool BTreeNode<T>::borrowFromSibling(int pos, int minNKeys)
     }
     else
     {
-        // Insert at end
+        // insert root key of pivot node and right sibling at the end of pivot node
         pivotNode.keys.insert(pivotNode.keys.end(), keys[rootKeyPos]);
         if (siblingNode.nChildren() > 0)
         {
@@ -294,7 +348,7 @@ BTreeNode<T> &BTreeNode<T>::replaceKeyWithChildKey(const T &key)
     int keyIndex = indexOfKey(key);
     // The children of a root key given its index are at index and index+1 in the list of children
 
-    // Try to see if you can replace with 
+    // Try to see if you can replace with
     std::shared_ptr<BTreeNode<T>> borrowerNodePtr = children[keyIndex];
     BTreeNode<T> borrowerNode = *borrowerNodePtr;
 }
