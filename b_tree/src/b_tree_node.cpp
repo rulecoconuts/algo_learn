@@ -1,10 +1,10 @@
-#include <b_tree_node.h>
+#include "b_tree_node.h"
 #include <cmath>
 
 template <typename T>
 std::vector<T> &BTreeNode<T>::getKeys() const
 {
-    return keys
+    return keys;
 }
 
 template <typename T>
@@ -232,7 +232,7 @@ BTreeNode<T> &BTreeNode<T>::getLeftChild(const T &key)
 template <typename T>
 BTreeNode<T> &BTreeNode<T>::getRightChild(const T &key)
 {
-    return children.at(indexOfKey(key) + 1)
+    return children.at(indexOfKey(key) + 1);
 }
 
 template <typename T>
@@ -290,7 +290,7 @@ bool BTreeNode<T>::borrowFromSibling(int pos, int minNKeys)
         return false;
     }
 
-    if (siblingNode.nKeys() == minNKeys())
+    if (siblingNode.nKeys() == minNKeys)
     {
         // Switch sibling to borrow from.
         // Since we are not at the edge, we know that chooseLeft will be true. Make chooseLeft false i.e choose right
@@ -300,7 +300,7 @@ bool BTreeNode<T>::borrowFromSibling(int pos, int minNKeys)
         siblingNodePtr = children[siblingPos];
         siblingNode = *siblingNodePtr;
 
-        if (siblingNode.nKeys() == minNKeys())
+        if (siblingNode.nKeys() == minNKeys)
             return false;
     }
 

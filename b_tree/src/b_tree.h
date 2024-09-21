@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include <b_tree_node.h>
+#include "b_tree_node.h"
 
 template <typename T>
 class BTree
@@ -73,4 +73,8 @@ public:
     /// @param key
     /// @return The key if it was found; nullptr if it does not exist in the tree
     T *find(const T &key);
+
+    /// @brief Check if tree is in a valid state
+    /// @return
+    bool isValid() const;
 };

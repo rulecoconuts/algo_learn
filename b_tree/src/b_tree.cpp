@@ -1,4 +1,4 @@
-#include <b_tree.h>
+#include "b_tree.h"
 #include <cmath>
 #include <stdexcept>
 
@@ -171,7 +171,7 @@ void BTree<T>::removeFromNonLeafNode(const T &key, BTreeNode<T> &node)
 template <typename T>
 BTreeNode<T> &BTree<T>::replaceNodeKeyFromSubTree(const T &key, BTreeNode<T> &node)
 {
-    BTreeNode<T> &leafNodeThatReplacementKeyWasFrom;
+    BTreeNode<T> *leafNodeThatReplacementKeyWasFrom = nullptr;
 
     // We will start by only considering the valid node on the left subtree
     BTreeNode<T> &validLeftNode = findRightmostLeafOfLeftSubtree(key, node);
@@ -184,7 +184,7 @@ BTreeNode<T> &BTree<T>::replaceNodeKeyFromSubTree(const T &key, BTreeNode<T> &no
     if (validLeftNode.nKeys() > getMinNKeys())
     {
         // The left leaf node can afford to get a key taken from it.
-        leafNodeThatReplacementKeyWasFrom = validLeftNode;
+        leafNodeThatReplacementKeyWasFrom = &validLeftNode;
         replacementKey = validLeftNode.popLastKey();
     }
     else
@@ -192,14 +192,14 @@ BTreeNode<T> &BTree<T>::replaceNodeKeyFromSubTree(const T &key, BTreeNode<T> &no
         // The left leaf node can afford to get a key taken from it.
         // Try the right leaf node
         BTreeNode<T> &validRightNode = findLeftmostLeafOfRightSubtree(key, node);
-        leafNodeThatReplacementKeyWasFrom = validRightNode;
+        leafNodeThatReplacementKeyWasFrom = &validRightNode;
         replacementKey = validRightNode.popFirstKey();
     }
 
     node.removeKey(key);
     node.insertKey(replacementKey);
 
-    return leafNodeThatReplacementKeyWasFrom;
+    return *leafNodeThatReplacementKeyWasFrom;
 }
 
 template <typename T>
