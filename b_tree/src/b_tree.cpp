@@ -189,7 +189,7 @@ BTreeNode<T> &BTree<T>::replaceNodeKeyFromSubTree(const T &key, BTreeNode<T> &no
     }
     else
     {
-        // The left leaf node can afford to get a key taken from it.
+        // The left leaf node cannot afford to get a key taken from it.
         // Try the right leaf node
         BTreeNode<T> &validRightNode = findLeftmostLeafOfRightSubtree(key, node);
         leafNodeThatReplacementKeyWasFrom = &validRightNode;

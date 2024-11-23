@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include "b_tree_node.h"
+#include "b_tree_node_validator.h"
 
 template <typename T>
 class BTree
@@ -8,6 +9,7 @@ class BTree
 private:
     std::shared_ptr<BTreeNode<T>> root;
     int maxNKeys;
+    BTreeNodeValidator<T> nodeValidator;
 
     /// @brief Insert a key into a particular node
     /// @param key
@@ -41,20 +43,24 @@ private:
     /// @return
     BTreeNode<T> &replaceNodeKeyFromSubTree(const T &key, BTreeNode<T> &node);
 
-    /// @brief Get the rightmost leaf node of the left subtree with some key in a start node as the root
+    /// @brief Get the rightmost leaf node of the left subtree with some key in a start node as the root. The rightmost key is the greatest key in the subtree
     /// @param key
     /// @param startNode
     /// @return
     BTreeNode<T> &findRightmostLeafOfLeftSubtree(const T &key, BTreeNode<T> startNode);
 
-    /// @brief Get the leftmost leaf node of the right subtree with some key in a start node as the root
+    /// @brief Get the leftmost leaf node of the right subtree with some key in a start node as the root. The leftmost key is the smallest key in the subtree.
     /// @param key
     /// @param startNode
     /// @return
     BTreeNode<T> &findLeftmostLeafOfRightSubtree(const T &key, BTreeNode<T> startNode);
 
 public:
-    BTree(int maxKeys) : maxNKeys(maxKeys), root(nullptr)
+    BTree(int maxKeys) : maxNKeys(maxKeys), root(nullptr), nodeValidator(BTreeNodeValidator<T>())
+    {
+    }
+
+    BTree(int maxKeys, BTreeNodeValidator<T> nodeValidatorIn) : maxNKeys(maxKeys), root(nullptr), nodeValidator(nodeValidatorIn)
     {
     }
 

@@ -1,6 +1,8 @@
 
 #include <optional>
 
+/// @brief This class is a composable way of defining node validation rules
+/// @tparam T
 template <typename T>
 class BTreeNodeValidator
 {
