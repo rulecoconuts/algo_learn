@@ -31497,9 +31497,9 @@
 		{
 			"id": "pointer:pointer",
 			"typeName": "pointer",
-			"x": 4890.7812191339,
-			"y": 790.756441903698,
-			"lastActivityTimestamp": 1732393373295,
+			"x": 5281.119952400874,
+			"y": -802.9210834244577,
+			"lastActivityTimestamp": 1732489274303,
 			"meta": {}
 		},
 		{
@@ -31507,7 +31507,7 @@
 			"opacityForNextShape": 1,
 			"stylesForNextShape": {
 				"tldraw:geo": "rectangle",
-				"tldraw:size": "xl"
+				"tldraw:size": "m"
 			},
 			"brush": null,
 			"scribbles": [],
@@ -31522,8 +31522,8 @@
 			"screenBounds": {
 				"x": 0,
 				"y": 0,
-				"w": 1340,
-				"h": 859
+				"w": 1205,
+				"h": 622
 			},
 			"insets": [
 				false,
@@ -31577,12 +31577,12 @@
 			"typeName": "instance_page_state"
 		},
 		{
-			"editingShapeId": "shape:xiG6bVptri_rr0XPHolfc",
+			"editingShapeId": null,
 			"croppingShapeId": null,
 			"selectedShapeIds": [
-				"shape:xiG6bVptri_rr0XPHolfc"
+				"shape:iDg6oANSgerF6tPxeSP4E"
 			],
-			"hoveredShapeId": null,
+			"hoveredShapeId": "shape:z6hf-f7dY3e2uWl43X7nX",
 			"erasingShapeIds": [],
 			"hintingShapeIds": [],
 			"focusedGroupId": null,
@@ -31621,9 +31621,9 @@
 			"typeName": "camera"
 		},
 		{
-			"x": 2487.02481592425,
-			"y": 3065.683982109315,
-			"z": 0.12555498316142694,
+			"x": 324.8186844587472,
+			"y": 1899.5371481214497,
+			"z": 0.11219673605461818,
 			"meta": {},
 			"id": "camera:page:VwCkqHRWZl-OBWCcejzfd",
 			"typeName": "camera"
@@ -31646,8 +31646,8 @@
 			"id": "shape:9e1gM2x9wf3rsG8CxcP63",
 			"type": "frame",
 			"props": {
-				"w": 3878.7413227772495,
-				"h": 2654.109269868834,
+				"w": 2178.4861958241245,
+				"h": 2024.8073235231018,
 				"name": "BTree<T>"
 			},
 			"parentId": "page:VwCkqHRWZl-OBWCcejzfd",
@@ -31655,8 +31655,8 @@
 			"typeName": "shape"
 		},
 		{
-			"x": 39.63643932246555,
-			"y": 44.965887076010176,
+			"x": 75.45675182246555,
+			"y": 82.33228111897893,
 			"rotation": 0,
 			"isLocked": false,
 			"opacity": 1,
@@ -31665,9 +31665,9 @@
 			"type": "text",
 			"props": {
 				"color": "black",
-				"size": "xl",
-				"w": 3390.546875,
-				"text": "Private:\n- /// Insert a key into a particular node\n  void insertInto(const T &key, BTreeNode<T> &node);\n\n- /// Find the best leaf node to insert the given key into\n    BTreeNode<T> &findOptimalInsertionNode(const T &key);\n\n- /// Split root into two nodes and a new root\n  void splitRoot(BTreeNode<T> &root);\n\n- /// Fix a node which has less keys than the minimum number of keys\n  void fixLessThanMinInvalidity(BTreeNode<T> &node);\n\n- /// Remove key from a non-leaf node. i.e a node with children\n  void removeFromNonLeafNode(const T &key, BTreeNode<T> &node);\n\n- /// Replace a key, K, in a nodes, with a valid key, R, from a leaf node of the subtrees of K.\n  /// R is either the closest leaf node less than the K in the left subtree or the closest leaf node greater than K in the\n  /// right subtree\n  BTreeNode<T> &replaceNodeKeyFromSubTree(const T &key, BTreeNode<T> &node);\n\n- /// Get the rightmost leaf node of the left subtree with some key in a start node as the root. The rightmost key is the greatest key in the subtree\n  BTreeNode<T> &findRightmostLeafOfLeftSubtree(const T &key, BTreeNode<T> startNode);\n\n- /// Get the leftmost leaf node of the right subtree with some key in a start node as the root. The leftmost key is the smallest key in the subtree.\n  BTreeNode<T> &findLeftmostLeafOfRightSubtree(const T &key, BTreeNode<T> startNode);\n\nPublic:\n- int getMaxNKeys() const;\n\n- int getMinNKeys() const;\n\n- /// Insert a key into tree\n  void insert(const T &key);\n\n- /// Remove a key\n  void remove(const T &key);\n\n- /// Find a key. return The key if it was found; nullptr if it does not exist in the tree\n  T *find(const T &key);\n\n- /// Check if tree is in a valid state\n  bool isValid() const;",
+				"size": "m",
+				"w": 1849.84375,
+				"text": "Private:\n- std::shared_ptr<BTreeNode<T>> root\n\n- int maxNKeys\n\n- BTreeNodeValidator<T> nodeValidator\n\n- /// Insert a key into a particular node\n  void insertInto(const T &key, BTreeNode<T> &node)\n\n- /// Find the best leaf node to insert the given key into\n  BTreeNode<T> &findOptimalInsertionNode(const T &key)\n\n- /// Split root into two nodes and a new root\n  void splitRoot(BTreeNode<T> &root)\n\n- /// Fix a node which has less keys than the minimum number of keys\n  void fixLessThanMinInvalidity(BTreeNode<T> &node)\n\n- /// Remove key from a non-leaf node. i.e a node with children\n  void removeFromNonLeafNode(const T &key, BTreeNode<T> &node)\n\n- /// Replace a key, K, in a nodes, with a valid key, R, from a leaf node of the subtrees of K.\n  /// R is either the closest leaf node less than the K in the left subtree or the closest leaf node greater than K in the\n  /// right subtree\n  BTreeNode<T> &replaceNodeKeyFromSubTree(const T &key, BTreeNode<T> &node)\n\n- /// Get the rightmost leaf node of the left subtree with some key in a start node as the root. The rightmost key is the greatest key in the subtree\n  BTreeNode<T> &findRightmostLeafOfLeftSubtree(const T &key, BTreeNode<T> startNode)\n\n- /// Get the leftmost leaf node of the right subtree with some key in a start node as the root. The leftmost key is the smallest key in the subtree.\n  BTreeNode<T> &findLeftmostLeafOfRightSubtree(const T &key, BTreeNode<T> startNode)\n\nPublic:\n- BTree(int maxKeys) : maxNKeys(maxKeys), root(nullptr), nodeValidator(BTreeNodeValidator<T>())\n\n- BTree(int maxKeys, BTreeNodeValidator<T> nodeValidatorIn) : maxNKeys(maxKeys), root(nullptr), nodeValidator(nodeValidatorIn)\n\n- int getMaxNKeys() const\n\n- int getMinNKeys() const\n\n- /// Insert a key into tree\n  void insert(const T &key)\n\n- /// Remove a key\n  void remove(const T &key)\n\n- /// Find a key\n  /// Return the key if it was found; nullptr if it does not exist in the tree\n  T *find(const T &key)\n\n- /// Check if tree is in a valid state\n  bool isValid() const",
 				"font": "draw",
 				"textAlign": "start",
 				"autoSize": true,
@@ -31678,8 +31678,8 @@
 			"typeName": "shape"
 		},
 		{
-			"x": 2677.8563076409455,
-			"y": -698.3819840846431,
+			"x": 1005.0975185784455,
+			"y": -1063.8449357447994,
 			"rotation": 0,
 			"isLocked": false,
 			"opacity": 1,
@@ -31687,12 +31687,76 @@
 			"id": "shape:xiG6bVptri_rr0XPHolfc",
 			"type": "frame",
 			"props": {
-				"w": 3604.9972276209373,
-				"h": 2690.6315948886177,
+				"w": 2425.8285264490623,
+				"h": 3224.976077310492,
 				"name": "BTreeNode<T>"
 			},
 			"parentId": "page:VwCkqHRWZl-OBWCcejzfd",
 			"index": "a36ua",
+			"typeName": "shape"
+		},
+		{
+			"x": 99.42190493527323,
+			"y": 80.10256311272906,
+			"rotation": 0,
+			"isLocked": false,
+			"opacity": 1,
+			"meta": {},
+			"id": "shape:W_BXFeWKP1EU4nsPiG8LR",
+			"type": "text",
+			"props": {
+				"color": "black",
+				"size": "m",
+				"w": 2252.642822265625,
+				"text": "Private:\n- std::vector<T> keys\n\n- std::weak_ptr<BTreeNode<T>> parent\n\n- std::vector<std::shared_ptr<BTreeNode<T>>> children\n\n- void setParent(std::weak_ptr<BTreeNode<T>> parent)\n\nPublic:\n- BTreeNode(std::vector<T> initialKeys) : keys(initialKeys), parent(nullptr)\n\n- BTreeNode(std::vector<T> initialKeys, std::vector<std::shared_ptr<BTreeNode<T>>> initialChildren) : keys(initialKeys), children(initialChildren), parent(nullptr)\n\n- BTreeNode(std::weak_ptr<BTreeNode<T>> initialParent) : parent(initialParent)\n\n- BTreeNode(std::vector<T> initialKeys, std::weak_ptr<BTreeNode<T>> initialParent) : keys(initialKeys), parent(initialParent)\n\n- std::vector<T> &getKeys() const\n\n- std::weak_ptr<BTreeNode<T>> getParent() const\n\n- bool hasParent() const\n\n- int nChildren() const\n\n- int nKeys() const\n\n- /// Find the index of a child in the node\n  /// Return 0+ index if the child was found. -1 if it was not\n  int indexOfChild(BTreeNode<T> &node)\n\n- /// Split the node into two\n  BTreeNodeSplitResult<T> split(int maxNKeys)\n\n- /// Split child into two\n  BTreeNodeSplitResult<T> splitChild(int pos, int minNKeys)\n\n- /// Split child into two\n  BTreeNodeSplitResult<T> splitChild(BTreeNode<T> &node, int minNKeys)\n\n- /// Merge child node with one of its siblings\n  void merge(int pos)\n\n- /// Insert key into its correct sorted position\n  void insertKey(const T &key)\n\n- /// Find index of key\n  /// Return 0+ index if the child was found. -1 if it was not\n  int indexOfKey(const T &key)\n\n- /// Remove key\n  void removeKey(const T &key)\n\n- void insertChildAtBack(BTreeNode<T> &child)\n\n- /// Get the first key\n  T &firstKey()\n\n- /// Get the last key\n  T &lastKey()\n\n- /// Remove and return the first key\n  T popFirstKey()\n\n- /// Remove and return the last key\n  T popLastKey()\n\n- T *findKey(const T &key)\n\n- /// Get the first child\n  BTreeNode<T> &firstChild()\n\n- /// Get the last child\n  BTreeNode<T> &lastChild()\n\n- /// Return the next child node to follow when looking for a key\n  BTreeNode<T> &findNextNode(T &key)\n\n- /// Return the left child node of a key\n  BTreeNode<T> &getLeftChild(const T &key)\n\n- /// Return the right child node of a key\n  BTreeNode<T> &getRightChild(const T &key)\n\n- /// Take a key from an immediate sibling/neighbour of a node\n  /// @param pos Node position\n  /// Return true if a key was borrowed successfully. false if it is not possible to borrow a key\n  bool borrowFromSibling(int pos, int minNKeys)\n\n- /// Replace the key in this node with a key from one of its immediate children\n  BTreeNode<T> &replaceKeyWithChildKey(const T &key)",
+				"font": "draw",
+				"textAlign": "start",
+				"autoSize": false,
+				"scale": 1
+			},
+			"parentId": "shape:xiG6bVptri_rr0XPHolfc",
+			"index": "a1",
+			"typeName": "shape"
+		},
+		{
+			"x": 3714.257303968563,
+			"y": -1079.848145588501,
+			"rotation": 0,
+			"isLocked": false,
+			"opacity": 1,
+			"meta": {},
+			"id": "shape:iDg6oANSgerF6tPxeSP4E",
+			"type": "frame",
+			"props": {
+				"w": 1859.758321088645,
+				"h": 527.4061472003041,
+				"name": "BTreeNodeValidator<T>"
+			},
+			"parentId": "page:VwCkqHRWZl-OBWCcejzfd",
+			"index": "a44IY",
+			"typeName": "shape"
+		},
+		{
+			"x": 74.71529738547179,
+			"y": 103.91624070008152,
+			"rotation": 0,
+			"isLocked": false,
+			"opacity": 1,
+			"meta": {},
+			"id": "shape:z6hf-f7dY3e2uWl43X7nX",
+			"type": "text",
+			"props": {
+				"color": "black",
+				"size": "m",
+				"w": 1657.0286671914282,
+				"text": "Public:\n- /// Check if the number of keys in a node is valid\n  /// @param maxKeys maximum number of keys allowed. The minimum number of keys allowed will likely be derived from this as well\n  std::optional<std::string> validateKeyCount(int maxKeys, const BTreeNode<T> &node, bool isRoot)\n\n- /// Check if the number of children in a node is valid\n  std::optional<std::string> validateChildrenCount(int maxKeys, const BTreeNode<T> &node, bool isRoot)",
+				"font": "draw",
+				"textAlign": "start",
+				"autoSize": false,
+				"scale": 1
+			},
+			"parentId": "shape:iDg6oANSgerF6tPxeSP4E",
+			"index": "a1",
 			"typeName": "shape"
 		}
 	]
