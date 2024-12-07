@@ -1,3 +1,0 @@
-/Users/oghenefejiroabohweyere/Documents/algo_learn/b_tree/build-unix/_deps/catch2-subbuild/CMakeFiles/catch2-populate.dir
-/Users/oghenefejiroabohweyere/Documents/algo_learn/b_tree/build-unix/_deps/catch2-subbuild/CMakeFiles/edit_cache.dir
-/Users/oghenefejiroabohweyere/Documents/algo_learn/b_tree/build-unix/_deps/catch2-subbuild/CMakeFiles/rebuild_cache.dir

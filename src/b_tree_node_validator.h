@@ -1,5 +1,6 @@
-
+#pragma once
 #include <optional>
+#include "b_tree_node.h"
 
 /// @brief This class is a composable way of defining node validation rules
 /// @tparam T

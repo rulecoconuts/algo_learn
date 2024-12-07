@@ -55,7 +55,10 @@
         "cinttypes": "cpp",
         "list": "cpp",
         "istream": "cpp",
-        "optional": "cpp"
+        "optional": "cpp",
+        "iomanip": "cpp",
+        "sstream": "cpp",
+        "format": "cpp"
     },
     "cmake.sourceDirectory": "/Users/oghenefejiroabohweyere/Documents/algo_learn/b_tree"
 }
