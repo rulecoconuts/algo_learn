@@ -119,7 +119,7 @@ void BTree<T>::insert(const T &key)
     }
 
     // There is a root. find optimal node to insert into
-    BTreeNode nodeToInsertInto = findOptimalInsertionNode(key);
+    BTreeNode<T> &nodeToInsertInto = findOptimalInsertionNode(key);
 
     // Insert into node
     insertInto(key, nodeToInsertInto);
@@ -143,10 +143,10 @@ void BTree<T>::insertInto(const T &key, BTreeNode<T> &node)
             return;
         }
 
-        BTreeNode<T> parent = *(currentNode->getParent().lock());
+        BTreeNode<T> *parent = currentNode->getParent().lock().get();
 
-        parent.splitChild(*currentNode, getMinNKeys());
-        currentNode = &parent;
+        parent->splitChild(*currentNode, getMinNKeys());
+        currentNode = parent;
     }
 }
 
@@ -164,7 +164,7 @@ void BTree<T>::splitRoot(BTreeNode<T> &root)
 template <typename T>
 BTreeNode<T> &BTree<T>::findOptimalInsertionNode(const T &key)
 {
-    BTreeNode<T> *currentNode = &(*root);
+    BTreeNode<T> *currentNode = root.get();
 
     while (currentNode->nChildren() > 0)
     {
